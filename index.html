@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+    <title>Consumir Api com fetchApi</title>
+
+</head>
+
+<body>
+
+    <h4 class="lead mt-4" style="text-align: center;">SWAPI com fetchApi</h4>
+    <div class="container mt-4">
+
+        <!-- <div class="card col-xl-6" style="background-color: red;"> -->
+
+        <div class="row card-body col-xl-6">
+            <label class="form-label">Id</label>
+            <div class="card-body col-xl-2">
+
+                <input type="text" class="form-control" id="idUser">
+            </div>
+            <div class="card-body col-xl-2">
+                <button id="btn" class="btn btn-outline-warning">Buscar</button>
+
+            </div>
+            <div class="card-body col-xl-6">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#ID</th>
+                            <th scope="col">NOME</th>
+                            <th scope="col">PESO</th>
+                            <th scope="col">SEXO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="linha">
+
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- </div> -->
+
+
+    </div>
+
+
+</body>
+
+<script>
+
+    //Seleciona o botao de envio da requisicao
+    var btn = document.querySelector('#btn');
+
+    //Adiciona o envento listenner ao botão
+    btn.addEventListener("click", function () {
+
+        //Seleciona o id do usuário no input
+        var idUser = document.querySelector('#idUser').value;
+
+        //Define a rota e concatena com o Id do usuário
+        const url = "https://swapi.dev/api/people/" + idUser;
+
+        //Requisição Fetch
+        fetch(url)
+
+            //Retorna uma promisse
+            .then(response => {
+                //Converte em json a resposta que retorna outra promisse
+                response.json().then(data => {
+
+                    //Cria as th
+                    var id = document.createElement('th');
+                    var nome = document.createElement('th');
+                    var peso = document.createElement('th');
+                    var genero = document.createElement('th');
+
+                    //Th recebe os valores da requisição
+                    id.innerText = idUser;
+                    nome.innerText = data.name;
+                    peso.innerText = data.mass;
+
+                    //Verifica se o valor do retorno de gender é igual a MALE se for atribui 'M'
+                    if (data.gender == 'male') {
+                        genero.innerText = 'M';
+                    } else {
+                        genero.innerText = 'F';
+                    }
+
+                    //Seta os atributos e valores
+                    id.setAttribute('scope', 'row');
+                    nome.setAttribute('scope', 'row');
+                    peso.setAttribute('scope', 'row');
+                    genero.setAttribute('scope', 'row');
+
+                    //Seleciona o id de linha
+                    var linha = document.querySelector('#linha');
+
+                    //Associa as Th a Tr linha
+                    linha.appendChild(id);
+                    linha.appendChild(nome);
+                    linha.appendChild(peso);
+                    linha.appendChild(genero);
+
+
+                }
+
+                )
+
+                //Exibe no console o erro
+            }).catch(erro => {
+                console.error(erro);
+            });
+
+
+    });
+
+
+</script>
+
+</html>
