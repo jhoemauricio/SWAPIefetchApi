@@ -36,18 +36,16 @@
             <div class="card-body col-xl-6">
                 <table class="table">
                     <thead>
+                        <!--Tr Linha da tabela-->
                         <tr>
+                            <!--Th cabeçalho-->
                             <th scope="col">#ID</th>
                             <th scope="col">NOME</th>
                             <th scope="col">PESO</th>
                             <th scope="col">SEXO</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr id="linha">
-
-
-                        </tr>
+                    <tbody id="tBody">
 
                     </tbody>
                 </table>
@@ -68,7 +66,7 @@
     //Seleciona o botao de envio da requisicao
     var btn = document.querySelector('#btn');
 
-    //Adiciona o envento listenner ao botão
+    //Adiciona o envento listenner ao botão a cada nova requisição
     btn.addEventListener("click", function () {
 
         //Seleciona o id do usuário no input
@@ -84,6 +82,9 @@
             .then(response => {
                 //Converte em json a resposta que retorna outra promisse
                 response.json().then(data => {
+
+                    //Cria a linha que receberá o cabeçalho th
+                    var linha = document.createElement('tr');
 
                     //Cria as th
                     var id = document.createElement('th');
@@ -109,14 +110,16 @@
                     peso.setAttribute('scope', 'row');
                     genero.setAttribute('scope', 'row');
 
-                    //Seleciona o id de linha
-                    var linha = document.querySelector('#linha');
-
                     //Associa as Th a Tr linha
                     linha.appendChild(id);
                     linha.appendChild(nome);
                     linha.appendChild(peso);
                     linha.appendChild(genero);
+
+                    //Seleciona o tableBody
+                    var tBody = document.querySelector('#tBody');
+                    //Associa a linha a tBody
+                    tBody.appendChild(linha);
 
 
                 }
